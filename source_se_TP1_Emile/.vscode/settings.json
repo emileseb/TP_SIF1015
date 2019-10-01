@@ -1,0 +1,9 @@
+{
+    "C_Cpp.dimInactiveRegions": false,
+    "files.associations": {
+        "cstddef": "cpp",
+        "iostream": "cpp",
+        "xlocale": "cpp",
+        "system_error": "cpp"
+    }
+}

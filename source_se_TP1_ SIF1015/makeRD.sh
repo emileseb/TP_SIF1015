@@ -1,0 +1,1 @@
+make REDUCED_DEBUG=t

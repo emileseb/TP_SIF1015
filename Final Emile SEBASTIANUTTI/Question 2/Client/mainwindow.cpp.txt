@@ -1,0 +1,75 @@
+#include "mainwindow.h"
+#include "ui_mainwindow.h"
+
+int sockfd;
+bool continuer = true;
+
+void * threadLecture(void* n)
+{
+    GUIUpdater* updater = (GUIUpdater*)n;
+    char retourserveur[400];
+    QString retour;
+    while(continuer) {
+        retour ="";
+        if (read(sockfd, retourserveur, 400) > 0) {
+            updater->newLabel(retourserveur);
+        }
+    }
+}
+MainWindow::MainWindow(QWidget *parent) :
+    QMainWindow(parent),
+    ui(new Ui::MainWindow)
+{
+    ui->setupUi(this);
+
+    int len;
+    int result;
+    struct sockaddr_in address;
+    pthread_t tid;
+    m.cid = getpid();
+
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
+    address.sin_family = AF_INET;
+    address.sin_addr.s_addr = inet_addr("127.0.0.1");
+    address.sin_port = 9734;
+    len = sizeof(address);
+
+    result = ::connect(sockfd, (struct sockaddr *)&address, len);
+
+    if (result == -1) {
+        printf("ERREUR : ça marche pas\n");
+        exit(EXIT_FAILURE);
+    }
+    m.cid = getpid();
+    debug("debug n2\n");
+    GUIUpdater *updater = new GUIUpdater();
+    pthread_create(&tid, NULL, threadLecture, updater);//-----------------------------------------------------------------
+    debug("Etape 1\n");
+    QObject::connect(ui->bouttonEnvoyer, SIGNAL(pressed()), this, SLOT(envoyerMessage()));
+    connect(updater, SIGNAL(requestNewLabel(QString)), this, SLOT(createLabel(QString)));
+
+    debug("Etape 4\n");
+
+}
+
+void MainWindow::envoyerMessage(){
+    char* line = ui->lineEdit->text().toLocal8Bit().data();
+    if (line[0]=='Q')
+    {
+        continuer = false;
+    }
+    sscanf(line,"%c %s %s",&m.action, m.filename ,m.param);
+    debug("Préparation écriture dans le socket\n");
+    write(sockfd, &m, sizeof(message));
+}
+
+void MainWindow::createLabel(const QString &imgSource)
+{
+    ui->label->append(imgSource);
+}
+
+MainWindow::~MainWindow()
+{
+    delete ui;
+}

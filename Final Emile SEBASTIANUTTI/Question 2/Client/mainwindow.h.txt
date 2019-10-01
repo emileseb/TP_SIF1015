@@ -1,0 +1,49 @@
+#ifndef MAINWINDOW_H
+#define MAINWINDOW_H
+
+#include <QMainWindow>
+#include <base.h>
+struct message{//Structure pour transfer d'information(interthread, interprocessus)
+    char action;
+    char filename[200];
+    char param[200];
+    int cid;
+};
+
+class GUIUpdater : public QObject {
+    Q_OBJECT
+
+public:
+    explicit GUIUpdater(QObject *parent = 0) : QObject(parent) {}
+    void newLabel(const QString &image) { emit requestNewLabel(image); }
+
+signals:
+    void requestNewLabel(const QString &);
+};
+
+namespace Ui {
+class MainWindow;
+}
+
+class MainWindow : public QMainWindow
+{
+    Q_OBJECT
+
+public:
+    explicit MainWindow(QWidget *parent = 0);
+    ~MainWindow();
+    message m;
+
+
+public slots:
+    void envoyerMessage();
+
+    void createLabel(const QString &imgSource);
+signals:
+    void messageRecu(QString);
+
+private:
+    Ui::MainWindow *ui;
+};
+
+#endif // MAINWINDOW_H

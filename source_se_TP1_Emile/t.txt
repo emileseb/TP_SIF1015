@@ -1,0 +1,51 @@
+﻿** NOCLIENT TYPETRANSACTION NOMFICHIER PARAMOPTIONNEL
+** A ajout d'un fichier
+** C équivalent de la commande cd 
+** E modifie un fichier
+** Q quitter l'application(serveur)
+** D supprimer un fichier
+** R renomme un fichier
+** F change un flag de fichier
+** l minuscule affiche le contenu d'un dossier et est effectue par un client
+** L est la commande serveur pour afficher toute l'arborescence(serveur)
+
+999 A /dmi.uqtr.ca/fmeunier/sif1015/docs/tp1
+999 A /dmi.uqtr.ca/fmeunier/sif1015/docs/tp2
+999 A /dmi.uqtr.ca/fmeunier/sif1015/docs/tp3
+999 A /dmi.uqtr.ca/fmeunier/sif1015/exemple/pthread
+999 A /dmi.uqtr.ca/fmeunier/sif1015/exemple/semaphore
+999 A /dmi.uqtr.ca/fmeunier/sif1015/exemple/c++
+0 A /dmi.uqtr.ca/client0/tp1
+L
+0 A /dmi.uqtr.ca/client0/tp2
+L
+1 A /dmi.uqtr.ca/client1/tp22
+L
+1 R /dmi.uqtr.ca/client1/tp22 tp1
+L
+1 A /dmi.uqtr.ca/client1/tp2
+L
+2 A /dmi.uqtr.ca/client2/B
+L
+3 E /dmi.uqtr.ca/client2/B
+L
+999 F /dmi.uqtr.ca 777
+L
+0 D /dmi.uqtr.ca/client0
+L
+0 l /dmi.uqtr.ca/
+0 A tmp
+0 A tmp2
+0 A tmp
+0 l /
+0 D tmp
+0 D tmp2
+L
+999 C dmi.uqtr.ca/fmeunier/sif1015
+999 A depot
+999 F depot 777
+999 E depot
+450 C dmi.uqtr.ca/fmeunier/sif1015/depot
+450 A tp1_mi450
+451 A dmi.uqtr.ca/fmeunier/sif1015/depot/tpi_mi451
+L
